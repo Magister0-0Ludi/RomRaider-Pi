@@ -54,6 +54,9 @@ fast boot specific options
 ### other changes
 fixing shutdown key, verifying com ports, os setup?
 ### hats used/recommended? 
+The hats I'm using now is a usb hat an an rs232 converter hat.
+Hope is with the rs232 hat I'll be able to log my wideband, but until the jserialcomm issue is dealt
+with, that isn't happening.
 ## Other
 From here I just have the 3d printed housing, and qled 7in touchscreen from waveshare.
 The screen is held in place (currently) with a modified version of the waveshare screenframe
