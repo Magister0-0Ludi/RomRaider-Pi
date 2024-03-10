@@ -37,8 +37,20 @@ This should allow romraider to open and read ecu data via a tactrix cable.
 ### Autostart
 starting romraider on powerup is handled with a .desktop file in an autostart file.
 Can't remember specifics, need to go back and figure that stuff out.
+### config.txt editing
+editing the config.txt file. its located at 
+
+`/boot/firmware/config.txt`
+
+you'll likely do a lot of editing in this file it you don't already/raspberry pi is new to you.
+for you expirenced guys, you already know.
+Right now, the only thing I can think of is adding the following to the end of the file (after "[all]"):
+- `dtoverlay=gpio-sutdown`
+- `dtoverlay=disable-bt`
+- `disable_splash=1`
+
 ### fast boot
-changing config
+fast boot specific options
 ### other changes
 fixing shutdown key, verifying com ports, os setup?
 ### hats used/recommended? 
