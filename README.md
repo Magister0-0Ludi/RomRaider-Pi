@@ -35,7 +35,7 @@ should be used for best results (thus far).
 This should allow romraider to open and read ecu data via a tactrix cable.
 ## Pi config
 ### Autostart
-starting romraider on powerup is handled with a .desktop file in an autostart file.
+starting romraider on powerup is handled with a .desktop file in an autostart folder.
 Can't remember specifics, need to go back and figure that stuff out.
 ### config.txt editing
 editing the config.txt file. its located at 
