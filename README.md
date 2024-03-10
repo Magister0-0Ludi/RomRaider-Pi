@@ -59,7 +59,12 @@ Hope is with the rs232 hat I'll be able to log my wideband, but until the jseria
 with, that isn't happening.
 ## CAD/3d printed parts
 I uploaded the fusion assembly file .f3d to the repository. Fusion is free, so hopefully anyone can
-use the file without issue
+use the file without issue.
+I printed the large housing component in 2 halves (the housing is made of 2 bodies in the assembly)
+out of asa. asa is supposed to be very uv and heat resistant, as well as strong and less warp prone 
+than abs. Even with asa and a prusa mk3 printer, you absolutely should take printing slow and use an 
+enclosure. This thing wants to warp. Then glue the 2 halves together with acetone and you're done 
+with that part.
 ## Other
 From here I just have the 3d printed housing, and qled 7in touchscreen from waveshare.
 The screen is held in place (currently) with a modified version of the waveshare screenframe
