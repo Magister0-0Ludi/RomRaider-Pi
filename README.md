@@ -1,5 +1,19 @@
+# TO - DO
+Finalize some method of controlling power on off, both automatically for a safe shutdown of the
+pi and for autostarting correctly when appropriate. This is currently being handled via arduino uno
+that monitors an optocoupler for ignition on/off. The arduino sends a wake signal to the pi, getting
+startup. Currently always on... might need to change that. Otherwise the arduino code at the very 
+least needs to be finished. The screen brightness autocontrol works, as does manual pi on off signal.
+currently there are issues with the optocoupler, it looks to possibly be a code issue - need to check that.
+
+otherwise I really need to post the files for the enclosure to be printed/improved, as well as the arduino
+code/interface design. Also need to post more detailed stuff for everything lol
 # RomRaider-Pi
 Place for me to store stuff for the romraider pi project
+
+This project is a lot of firsts for me in terms of, well, most of it. I'm learning and honestly pretty
+bad at this. BUT I think this is a really cool idea and I want people to be able to make more of it and
+help me turn it into something that people might actually use, or at something that is really cool.
 ## RomRaider
 The project is currently based on a raspberry pi running the current raspberry pi 32bit os.
 For romraider to be able to run, a 32bit jdk must be installed. 
