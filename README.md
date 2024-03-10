@@ -1,14 +1,14 @@
 # RomRaider-Pi
 Place for me to store stuff for the romraider pi project
-
+## RomRaider
 The project is currently based on a raspberry pi running the current raspberry pi 32bit os.
 For romraider to be able to run, a 32bit jdk must be installed. 
-sudo apt install default-jdk
+'sudo apt install default-jdk'
 Once this is done, romraider zip for linux should be downloaded and extracted. Once extracted
-java -jar RomRaider.jar
+'java -jar RomRaider.jar'
 should be run. This should open romraider. Once this is done, the run script can be editied to
 run romraider logger fullscreen. This should allow romraider to open directly to the logger.
-
+## Tactrix
 To enable romraider to use a tactrix cable allowing it to be used for this project, one must 
 install an open source linux driver. These can be found here:
 https://github.com/dschultzca/j2534. Special note about this, the current
@@ -17,10 +17,10 @@ the most recent version of this lib at the time of writing. Once this is done, m
 should be used for best results (thus far). 
 
 This should allow romraider to open and read ecu data via a tactrix cable.
-
+## Autostart
 starting romraider on powerup is handled with a .desktop file in an autostart file.
 Can't remember specifics, need to go back and figure that stuff out.
-
+## Other
 From here I just have the 3d printed housing, and qled 7in touchscreen from waveshare.
 The screen is held in place (currently) with a modified version of the waveshare screenframe
 cad assembly. Follow instructions for the screen on the pi. 
