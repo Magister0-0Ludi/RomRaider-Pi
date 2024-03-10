@@ -54,7 +54,7 @@ fast boot specific options
 ### other changes
 fixing shutdown key, verifying com ports, os setup?
 ### hats used/recommended? 
-The hats I'm using now is a usb hat an an rs232 converter hat.
+The hats I'm using now is a usb hub hat an an rs232 converter hat.
 Hope is with the rs232 hat I'll be able to log my wideband, but until the jserialcomm issue is dealt
 with, that isn't happening.
 ## CAD/3d printed parts
