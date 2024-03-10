@@ -19,9 +19,15 @@ the most recent version of this lib at the time of writing. Once this is done, m
 should be used for best results (thus far). 
 
 This should allow romraider to open and read ecu data via a tactrix cable.
-## Autostart
+## Pi config
+### Autostart
 starting romraider on powerup is handled with a .desktop file in an autostart file.
 Can't remember specifics, need to go back and figure that stuff out.
+### fast boot
+changing config
+### other changes
+fixing shutdown key, verifying com ports, os setup?
+### hats used/recommended? 
 ## Other
 From here I just have the 3d printed housing, and qled 7in touchscreen from waveshare.
 The screen is held in place (currently) with a modified version of the waveshare screenframe
