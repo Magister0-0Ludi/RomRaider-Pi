@@ -57,6 +57,9 @@ fixing shutdown key, verifying com ports, os setup?
 The hats I'm using now is a usb hat an an rs232 converter hat.
 Hope is with the rs232 hat I'll be able to log my wideband, but until the jserialcomm issue is dealt
 with, that isn't happening.
+## CAD/3d printed parts
+I uploaded the fusion assembly file .f3d to the repository. Fusion is free, so hopefully anyone can
+use the file without issue
 ## Other
 From here I just have the 3d printed housing, and qled 7in touchscreen from waveshare.
 The screen is held in place (currently) with a modified version of the waveshare screenframe
