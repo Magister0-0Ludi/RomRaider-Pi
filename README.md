@@ -3,9 +3,9 @@ Place for me to store stuff for the romraider pi project
 
 The project is currently based on a raspberry pi running the current raspberry pi 32bit os.
 For romraider to be able to run, a 32bit jdk must be installed. 
-  sudo apt install default-jdk
+sudo apt install default-jdk
 Once this is done, romraider zip for linux should be downloaded and extracted. Once extracted
-  java -jar RomRaider.jar
+java -jar RomRaider.jar
 should be run. This should open romraider. Once this is done, the run script can be editied to
 run romraider logger fullscreen. This should allow romraider to open directly to the logger.
 
