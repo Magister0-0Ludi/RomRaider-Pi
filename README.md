@@ -45,7 +45,7 @@ editing the config.txt file. its located at
 you'll likely do a lot of editing in this file it you don't already/raspberry pi is new to you.
 for you expirenced guys, you already know.
 Right now, the only thing I can think of is adding the following to the end of the file (after "[all]"):
-- `dtoverlay=gpio-sutdown`
+- `dtoverlay=gpio-shutdown`
 - `dtoverlay=disable-bt`
 - `disable_splash=1`
 
