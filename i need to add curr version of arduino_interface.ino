@@ -11,6 +11,17 @@ DESCRIPTION:      This code is set up to act as an interface between the pi and 
                   low momentarily. This is intepreted by the pi as a wake/halt command, allowing for the
                   pi to turn on and off automatically and safely depending on ignition state.
 
+INPUTS:           GL5528 LDR analog input goes to pin a1, after 10kohm voltage divider
+                  OPTOCOUPLER com line goes to digital pin 0. NC and NO are wired to drive the com
+                  pin high and low
+                  PI STATUS reads 3.3v state on digital pin 1 (WIP)
+                  BUTTON PIN digital input on pin 4, connects to momentary tactile button. Manual trigger
+                  for output signal on pin 2
+                  
+OUTPUTS:          PI ON PIN digital output on pi 2 to wake and halt the pi. wake only is (WIP)
+                  PI OFF PIN digital output on pin 3 to halt the pi (WIP)
+                  SCREEN BRIGHTNESS PWM output on pin 6 to set brightness on screen
+
 EXTRA SETUP:      I connected the grounds of all the devices being interacted with to the arduino 
                   because as I understand it thats the right move.
                   The gl5528 ldr is powered by 5v on one leg, and has a voltage divider between the 
@@ -22,27 +33,31 @@ EXTRA SETUP:      I connected the grounds of all the devices being interacted wi
                   for now. 
 *******************************************************************************************************/
 
-const int optocouplerPin = 0;             // Pin connected to the optocoupler signal
-const int raspberryPiControlPin = 2;      // Pin to control Raspberry Pi GPIO3
+const int optocouplerPin = 0;             // Pin connected to the optocoupler output
+const int piStatus = 1;                   // to read the 3.3v line on the pi that is powered when the pi is awake
+const int piOnPin = 2;                    // Pin to control Raspberry Pi
+const int piOffPin = 3;                   // pin to be used for only power off with custom dtoverlay=gpio-shutdown pin = x. maybe set to gpio5?
+const int buttonPin = 4;                  // Pin connected to the manual button
 const int screenBrightnessPin = 6;        // PWM Pin to control screen brightness
-const int buttonPin = 4;                  // Pin connected to the manual button (I just used a tactile button)
-const int gl5528Pin = A1;                 // Analog pin connected to the GL5528 LDR, after volt divider (5v is dangerous as a potential input btw)
+const int gl5528Pin = A1;                 // Analog pin connected to the GL5528 LDR
 
 int lastOptoState = LOW;                  // Assuming optocoupler is de-energized initially
-int optoStateChangedTime = 0;             // Time when optocoupler state last changed
-int optoStateDuration = 3000;             // Duration for which optocoupler state should remain unchanged (in milliseconds)
-int brightLevel = 64;                     // PWM for bright (lower simulated voltage/duty cycle)
-int dimLevel = 150;                       // PWM for dimmed (higher voltage/duty cycle)
-int threshold = 600;                      // threshold for brightness change based on ambient light reading (change as needed, i started with 600 as a good number)
+int brightLevel = 64;                     // PWM value for approximately 75% brightness
+int dimLevel = 150;                       // PWM value for approximately 25% brightness
+int threshold = 600;                      // Fixed threshold for LDR
+long optoStateChangedTime = 0;            // Time when optocoupler state last changed
+bool signalSent = true;                   // stores if the signal has been sent per state change
 
 void setup() {
   pinMode(optocouplerPin, INPUT);
-  pinMode(raspberryPiControlPin, OUTPUT);
+  pinMode(piOnPin, OUTPUT);
   pinMode(screenBrightnessPin, OUTPUT);
   pinMode(buttonPin, INPUT_PULLUP);
 
   // Initial state for the Raspberry Pi control pin (HIGH to start)
-  digitalWrite(raspberryPiControlPin, HIGH);
+  digitalWrite(piOnPin, HIGH);
+
+  Serial.begin(9600);
 }
 
 void loop() {
@@ -52,39 +67,38 @@ void loop() {
   // Read the analog value from the GL5528 LDR
   int gl5528Value = analogRead(gl5528Pin);
 
-  // set screen brightness based on ldr value vs thershold
+  // Adjust screen brightness based on the GL5528 reading
   int brightness = gl5528Value > threshold ? brightLevel : dimLevel;
 
   analogWrite(screenBrightnessPin, brightness);
 
-  // Check for optocoupler state change
+  // Check for state change of the optocoupler
   if (currentOptoState != lastOptoState) {
     // Optocoupler state change detected
-    optoStateChangedTime = millis();  // store time of state change
-
-    // check if optocoupler is holding state change
-    if (millis() - optoStateChangedTime >= optoStateDuration) {
-      // Send momentary pulse to the Raspberry Pi control pin
-      digitalWrite(raspberryPiControlPin, LOW);
-      delay(600);  // hold low for 600 milliseconds
-      digitalWrite(raspberryPiControlPin, HIGH);
-    }
-
-    // Update last state change time
-    optoStateChangedTime = millis();
-
-    // Delay for debounce
+    optoStateChangedTime = millis();  // Record the time of state change
+    lastOptoState = currentOptoState;
+    // Delay for debounce (adjust as needed)
     delay(50);
+    signalSent = false;
   }
 
-  // Check the manual button state. a way to manually power cycle, just in case.
+  // Check if the optocoupler state has remained unchanged for a certain duration
+  if (millis() - optoStateChangedTime >= 5000UL && !signalSent) {
+    // Send momentary pulse to the Raspberry Pi control pin
+    digitalWrite(piOnPin, LOW);
+    delay(600);  // Adjusted to 500 milliseconds
+    digitalWrite(piOnPin, HIGH);
+    // Add any additional logic or commands if needed
+    signalSent = true;
+  }
+
+  // Check the manual button state
   if (buttonState == LOW) {
     // Button is pressed, send momentary pulse to the Raspberry Pi control pin
-    digitalWrite(raspberryPiControlPin, LOW);
-    delay(600);  // hold low for 600 milliseconds
-    digitalWrite(raspberryPiControlPin, HIGH);
-  }
+    digitalWrite(piOnPin, LOW);
+    delay(600);  // Adjusted to 500 milliseconds
+    digitalWrite(piOnPin, HIGH);
 
-  // Update the last state for the next iteration
-  lastOptoState = currentOptoState;
+    // Add additional logic or commands as needed when the button is pressed
+  }
 }
