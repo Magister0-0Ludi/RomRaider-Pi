@@ -74,6 +74,11 @@ Right now, the only thing I can think of is adding the following to the end of t
 - `dtoverlay=disable-bt`
 - `disable_splash=1`
 
+To set up the pi to have discrete on and off pins, use:
+
+`dtoverlay=gpio-shutdown,gpio_pin=4,active_low=1,gpio_pull=up,debounce=50`
+
+this should make pin 3 only wake the pi with its hardware pullup resistor, and pin 4 (the pin directly below pin 3) the shutdown pin only.
 ### fast boot
 fast boot specific options
 ### other changes
