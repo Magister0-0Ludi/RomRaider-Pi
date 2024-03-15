@@ -49,10 +49,13 @@ but recommendations seem to be to use/make the autostart folder at
 use whichever works for you. In the autostart folder, we need to make a desktop entry.
 create a file called <filename>.desktop. In that file, write 
 
-` [DESKTOP ENTRY]
- Type=Application
- Name=RomRaider
- Exec=<path to romraider run.sh script>`
+`[DESKTOP ENTRY]`
+
+`Type=Application`
+
+`Name=RomRaider`
+
+`Exec=<path to romraider run.sh script>`
 
 to make sure that RomRaider launches with access to all its libraries and such, it needs 
 to be launched for its home dir. So we must go edit the run.sh script. Once opened, add
