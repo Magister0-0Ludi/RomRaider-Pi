@@ -53,6 +53,19 @@ Right now, the only thing I can think of is adding the following to the end of t
 fast boot specific options
 ### other changes
 fixing shutdown key, verifying com ports, os setup?
+to make the pi shut down with a single "button press" you have to change the shutdown key behavior. To do this, go to 
+
+`/etc/systemd/login.conf`
+
+and find 
+
+`HandlePowerKey=ignore`
+
+and change it to 
+
+`HandlePowerKey=shutdown`.
+
+Make sure that the line is not commented out as well. This will make wake and halt a single input operation.
 ### hats used/recommended? 
 The hats I'm using now is a usb hub hat an an rs232 converter hat.
 Hope is with the rs232 hat I'll be able to log my wideband, but until the jserialcomm issue is dealt
