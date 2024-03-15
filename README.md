@@ -108,6 +108,14 @@ out of asa. asa is supposed to be very uv and heat resistant, as well as strong 
 than abs. Even with asa and a prusa mk3 printer, you absolutely should take printing slow and use an 
 enclosure. This thing wants to warp. Then glue the 2 halves together with acetone and you're done 
 with that part.
+## Arduino
+The arduino is powered straight from const 12v using the vin and ground pins on the headers, however is also perfectly reasonable to 
+run that 12v into the arduino via the dc barrel jack. That is all that is needed to power the arduino.
+
+Overall the arduino setup is pretty simple, doesnt require much other than a straight line between its pins and whatever its connected to.
+Only circuit additions are a voltage divider using a 10kohm resistor between the output leg of the ldr and the analog input pin. The ldr is fed by 5v instead of 3.3v
+The optocoupler no and nc pins must be connected to 3.3v and ground on the arduino to draw the com pin high and low without the need of pull
+resistors. Thats it.
 ## Other
 From here I just have the 3d printed housing, and qled 7in touchscreen from waveshare.
 The screen is held in place (currently) with a modified version of the waveshare screenframe
