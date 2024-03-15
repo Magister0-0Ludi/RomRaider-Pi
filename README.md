@@ -37,6 +37,31 @@ This should allow romraider to open and read ecu data via a tactrix cable.
 ### Autostart
 starting romraider on powerup is handled with a .desktop file in an autostart folder.
 Can't remember specifics, need to go back and figure that stuff out.
+
+To autostart RomRaider, we start at getting to the autostart folder. I created one at 
+
+`~/.config/autostart/`
+
+but recommendations seem to be to use/make the autostart folder at 
+
+`~/.config/lxsession/LXDE-<username, or pi if left default>/autostart/`
+
+use whichever works for you. In the autostart folder, we need to make a desktop entry.
+create a file called <filename>.desktop. In that file, write 
+
+`[DESKTOP ENTRY]
+Type=Application
+Name=RomRaider
+Exec=<path to romraider run.sh script>`
+
+to make sure that RomRaider launches with access to all its libraries and such, it needs 
+to be launched for its home dir. So we must go edit the run.sh script. Once opened, add
+
+`cd <path to RomRaider directory>`
+
+at the beginning of the script.
+
+Then you're down, RomRaier should autostart after the desktop enviorment loads on the pi.
 ### config.txt editing
 editing the config.txt file. its located at 
 
