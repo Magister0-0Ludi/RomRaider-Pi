@@ -1,6 +1,5 @@
 # TO - DO
-If you're here for instructions and more readme type material, go here: 
-
+If you're here for instructions and more readme type material, scroll down to RomRaider Pi
 
 ## The GitHub
 I need to make this a more user friendly repository. Improving the instructions here, actually uploading my scripts
