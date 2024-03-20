@@ -1,6 +1,6 @@
 # TO - DO
 If you're here for instructions and more readme type material, go here: 
-
+https://github.com/Magister0-0Ludi/RomRaider-Pi/edit/main/README.md#romraider
 
 
 ## The GitHub
