@@ -1,13 +1,54 @@
 # TO - DO
-Finalize some method of controlling power on off, both automatically for a safe shutdown of the
-pi and for autostarting correctly when appropriate. This is currently being handled via arduino uno
-that monitors an optocoupler for ignition on/off. The arduino sends a wake signal to the pi, getting
-startup. Currently always on... might need to change that. Otherwise the arduino code at the very 
-least needs to be finished. The screen brightness autocontrol works, as does manual pi on off signal.
-currently there are issues with the optocoupler, it looks to possibly be a code issue - need to check that.
+If you're here for instructions and more readme type material, go here: 
+https://github.com/Magister0-0Ludi/RomRaider-Pi/edit/main/README.md#romraider
 
-otherwise I really need to post the files for the enclosure to be printed/improved, as well as the arduino
-code/interface design. Also need to post more detailed stuff for everything lol
+
+## The GitHub
+I need to make this a more user friendly repository. Improving the instructions here, actually uploading my scripts
+getting some directories made so I can make this less of a personal dump for stuff and more of an opensource builder friendly 
+repository.
+## The Pi
+Theres a lot of potential to dos here so I'll start simple
+### Improving auto on off function
+The pi uses the gpio-shutdown to control its on off. By default, it uses the same pin for on and off (or wake and halt), GPIO3
+or pin 5. To improve it, the gpio-shutdown should be given a user assigned pin (like GPIO4, the pin directly beneath GPIO3), pin pull up/down
+and debounce. This will allow GPIO4 to be used for shutdown only, and since GPIO3 wake up function is hardware based, the wake up will remain
+GPIO3, allowing for seperate on and off signals to be sent. This will allow the pi to use i2c which is good for expandability in the future, and potentially simplifiying the logic and reducing the chance of edge cases causing accidental shutdowns up or wake up events. 
+### RTC
+I would like for the pi to have functional rtc, both because it replaced my clock and at some point I would like to have a clock overlay thing working so I can have an accurate clock again. Also, if I ever do figure out a good way to log my own list of external sensors (like brake pressure, suspension 
+travel, gps), making sure I have accurate times on all my logs will be important for analysing both my performance and the cars performance on track.
+All in an opensource platform.
+
+Man, I have big dreams.
+### Desktop/GUI
+The goal for the actual user interface of this system is to build something that is centered around a touch interface and easy navigation.
+With the research I've done, it seems like the most effective way to do this would be skip the traditional desktop entirely. Instead from 
+the command line one can start and end desktop instances that could be as limited as being an instance of a graphical app (like romraider).
+In conjunction with this a simple gui menu could likely be made from scratch with some practice. This could be the first desktop instance that is 
+launched, and through a touch friendly interface it could be used to launch a new desktop instance of the app wanted, and close it as appropriate. In
+theory, such a ui could also have buttons to go to a cmdline instance or exit the simplified ui and launch a full featured standard instance of the desktop.
+
+It is feasible that hardware buttons could be added to the ui via gpio to act as hotkeys for closing an app, a home button, change desktop, etc. This 
+is definitely beyond scope right now as I havent the foggiest on executing the gui changes alone. This will probably come later in this projects life.
+### RomRaider
+Romraider works pretty well, but does have *some* issues working on the pi platform. There are two issues that I need to address when it comes to romraider. This first is that it requires 32bit java. Problem is, easily getting that setup on a 64bit rpi os has proven to be quite a chore and difficult
+to repeat (for me). So you are limited to 32bit os. Not a terrible thing, but it does bottleneck the pi to a certain degree. The other side of this issue
+is getting the desired jdk set up for rr. You can get a 32bit jdk on a 32bit os, but the specific version that rr wants is still a challenge to get 
+working consistently. The other problem integrating rr has faced is the nonfunctional serial port. I know that this is an issue with the way the jserialcomm library works on the pi4 (as this issue was not present in earlier versions or this that used a pi3). Beyond that I dont know what the problem 
+is. But having a usable serial port for rr could be significant in the future, and right now it means I cant log my wideband o2 sensor and I really want to
+log that.
+## The arduino/external hardware
+### arduino to pi interface
+- add the seperate power off connection
+- add some kind of monitoring. Best way seems to be watching the pi's 3.3v supply line, as it will drop to 0v when the pi has halted
+- potentially add serial/i2c communication for data exchange or dynamic instructions to be sent.
+if power monitoring can be effectively established, it would be possible for the arduino to control a relay that would cut power to the pi once fully halted. Also very much in theory, the arduino could either carry an rtc and pass that to the pi or power the pi's rtc as it has always on power. Not
+really a need as power consumption from the arduino and pi is incredibly low even with both active.
+### arduino code
+it needs to be improved to actually have an instant on, hold for x seconds for off to the pi. possibly monitor the pi's power state. 
+need to improve the auto dimmer to maybe have a full brightness setting for when the sun is really shining, and a buffer so headlights and streetlights
+wont cause strobing behavior. Not a massive problem, but still annoying when your making your way through a parking lot at night.
+
 # RomRaider-Pi
 Place for me to store stuff for the romraider pi project
 
