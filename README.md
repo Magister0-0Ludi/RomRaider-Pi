@@ -56,19 +56,7 @@ help me turn it into something that people might actually use, or at something t
 ## RomRaider
 (The project is currently based on a raspberry pi running the current raspberry pi 32bit os.
 For romraider to be able to run, a 32bit jdk must be installed.
-- `sudo apt install default-jdk`) ***THIS IS NOW DEPRICATATED NEW INSTRUCTIONS FOLLOW***
-
-This project is now based on the 64 bit version of raspberry pi os (bookworm). To be able to run
-RomRaider we need to use a 32 bit java jdk. No native 32 bit java jdks are supported for a 64 bit system,
-so to get around this we will install a java jdk intended for a 32 bit system. 
-
-To do this we use the normal instructions to download a program via `apt-get` and add the `:<arch>` parameter
-to the end. The 32 bit arm architecture is `armhf`, and the 64 bit is `arm64`.
-
-So we either use
-- `sudo apt-get install default-jdk:armhf` *or* 
-- `sudo apt-get install openjdk-17-jdk:armhf`
-(debug instructions will be added here)
+- `sudo apt install default-jdk`
 
 Once this is done, the linux os zip file for RomRaider should be downloaded from romraider.com
 and extracted to `/home/<home dir>/`. Then via the termial, move to the new RomRaider directory with 
