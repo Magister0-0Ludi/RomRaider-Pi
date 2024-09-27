@@ -22,9 +22,7 @@ OUTPUTS:          PI ON PIN digital output on pi 2 to wake and halt the pi. wake
                   PI OFF PIN digital output on pin 3 to halt the pi (WIP)
                   SCREEN BRIGHTNESS PWM output on pin 6 to set brightness on screen
 
-EXTRA SETUP:      I connected the grounds of all the devices being interacted with to the arduino 
-                  because as I understand it thats the right move.
-                  The gl5528 ldr is powered by 5v on one leg, and has a voltage divider between the 
+EXTRA SETUP:      The gl5528 ldr is powered by 5v on one leg, and has a voltage divider between the 
                   itself and the analog input on the arduino. Voltage divider uses a 10k ohm resistor
                   The optocoupler has 3.3v connected to nc, input pin connected to com, and ground 
                   connected to no.
@@ -38,52 +36,53 @@ const int piStatus = 1;                   // to read the 3.3v line on the pi tha
 const int piOnPin = 2;                    // Pin to control Raspberry Pi
 const int piOffPin = 3;                   // pin to be used for only power off with custom dtoverlay=gpio-shutdown pin = x. maybe set to gpio5?
 const int buttonPin = 4;                  // Pin connected to the manual button
-const int screenBrightnessPin = 6;        // PWM Pin to control screen brightness
+const int dimmerPin = 6;        // PWM Pin to control screen brightness
 const int gl5528Pin = A1;                 // Analog pin connected to the GL5528 LDR
 
 int lastOptoState = LOW;                  // Assuming optocoupler is de-energized initially
 int brightLevel = 64;                     // PWM value for approximately 75% brightness
 int dimLevel = 150;                       // PWM value for approximately 25% brightness
-int threshold = 600;                      // Fixed threshold for LDR
+int threshold = 650;                      // Fixed threshold for LDR
 long optoStateChangedTime = 0;            // Time when optocoupler state last changed
+long dimDoubleCheck = 0;
 bool signalSent = true;                   // stores if the signal has been sent per state change
+bool brightRequested = false;
+bool brightActual = false;
+
 
 void setup() {
   pinMode(optocouplerPin, INPUT);
   pinMode(piOnPin, OUTPUT);
-  pinMode(screenBrightnessPin, OUTPUT);
+  pinMode(dimmerPin, OUTPUT);
   pinMode(buttonPin, INPUT_PULLUP);
 
   // Initial state for the Raspberry Pi control pin (HIGH to start)
   digitalWrite(piOnPin, HIGH);
-
-  Serial.begin(9600);
 }
 
+int ScreenControl(int gl5528Value); //function to control screen brightness
+
 void loop() {
-  int currentOptoState = digitalRead(optocouplerPin);
+  int optoStatus = digitalRead(optocouplerPin);
   int buttonState = digitalRead(buttonPin);
 
   // Read the analog value from the GL5528 LDR
   int gl5528Value = analogRead(gl5528Pin);
-
-  // Adjust screen brightness based on the GL5528 reading
-  int brightness = gl5528Value > threshold ? brightLevel : dimLevel;
-
-  analogWrite(screenBrightnessPin, brightness);
-
+  
+  analogWrite(dimmerPin, ScreenControl(gl5528Value));
+  
   // Check for state change of the optocoupler
-  if (currentOptoState != lastOptoState) {
+  if (optoStatus != lastOptoState) {
     // Optocoupler state change detected
     optoStateChangedTime = millis();  // Record the time of state change
-    lastOptoState = currentOptoState;
+    lastOptoState = optoStatus;
     // Delay for debounce (adjust as needed)
     delay(50);
     signalSent = false;
   }
 
   // Check if the optocoupler state has remained unchanged for a certain duration
-  if (millis() - optoStateChangedTime >= 5000UL && !signalSent) {
+  if (millis() - optoStateChangedTime >= 5000 && !signalSent) {
     // Send momentary pulse to the Raspberry Pi control pin
     digitalWrite(piOnPin, LOW);
     delay(600);  // Adjusted to 500 milliseconds
@@ -91,14 +90,29 @@ void loop() {
     // Add any additional logic or commands if needed
     signalSent = true;
   }
+}
 
-  // Check the manual button state
-  if (buttonState == LOW) {
-    // Button is pressed, send momentary pulse to the Raspberry Pi control pin
-    digitalWrite(piOnPin, LOW);
-    delay(600);  // Adjusted to 500 milliseconds
-    digitalWrite(piOnPin, HIGH);
+int ScreenControl(int gl5528Value) {
+   if (gl5528Value > threshold) {
+    brightRequested = true;
+  } else {
+    brightRequested = false;
+  }
 
-    // Add additional logic or commands as needed when the button is pressed
+  if (brightActual != brightRequested && dimDoubleCheck == 0) {
+    dimDoubleCheck = millis();
+  } else if (brightActual == brightRequested) {
+    dimDoubleCheck = 0;
+  }
+
+  if (millis() - dimDoubleCheck >= 5000) {
+    brightActual = brightRequested;
+    dimDoubleCheck = 0;
+  }
+
+  if (!brightActual) {
+    return dimLevel;
+  } else {
+    return brightLevel;
   }
 }
