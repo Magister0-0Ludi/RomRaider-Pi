@@ -1,5 +1,9 @@
 ## Preface
 I'm new at this
+## to-do
+add bill of materials
+supporting hardware setup (arduino, optocoupler, buck converter, light sensor, button board, wiring)
+update cad model
 
 # RomRaider Pi
 The purpose of this project is to use a raspberry pi to create an integrated data logger that would power on and off with the car, display live data and run software that is configured to read Subaru specific PIDs (like fbkc or iam). 
@@ -45,9 +49,7 @@ This file is an app launcher, and can be copied to your desktop as well.
 Once this is complete, romraider should automatically start when the pi turns on.
 ## The arduino/external hardware
 ### arduino to pi interface
-
 ### arduino code
-
 ## CAD/3d printed parts
 I uploaded the fusion assembly file .f3d to the repository. Fusion is free, so hopefully anyone can
 use the file without issue.
