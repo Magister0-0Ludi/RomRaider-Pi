@@ -8,6 +8,12 @@ update cad model
 # RomRaider Pi
 The purpose of this project is to use a raspberry pi to create an integrated data logger that would power on and off with the car, display live data and run software that is configured to read Subaru specific PIDs (like fbkc or iam). 
 
+## Parts
+- screen: https://www.amazon.com/waveshare-7inch-Touch-Capacitive-Integrated/dp/B0BBCKVYSC/ref=asc_df_B0BBCKVYSC?mcid=0077a9676ce03da1881a31bcd2901d69&tag=hyprod-20&linkCode=df0&hvadid=693442483832&hvpos=&hvnetw=g&hvrand=9971221351291771862&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9060467&hvtargid=pla-1968755002935&psc=1
+- arduino uno: https://www.amazon.com/waveshare-7inch-Touch-Capacitive-Integrated/dp/B0BBCKVYSC/ref=asc_df_B0BBCKVYSC?mcid=0077a9676ce03da1881a31bcd2901d69&tag=hyprod-20&linkCode=df0&hvadid=693442483832&hvpos=&hvnetw=g&hvrand=9971221351291771862&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9060467&hvtargid=pla-1968755002935&psc=1
+- raspberry pi 4: https://www.adafruit.com/product/4296
+- and more that I need to list...
+
 ## The Pi
 ### Pi OS
 For the least headache it is strongly recommended that the operating system used is 32 bit, not 64bit. The recommended OS is the latest version of Raspberry Pi OS (32 bit), with desktop enviornment. It can be found here: https://www.raspberrypi.com/software/
